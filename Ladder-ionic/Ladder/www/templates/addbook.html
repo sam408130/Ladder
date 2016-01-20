@@ -1,0 +1,21 @@
+<ion-view view-title="Add Book">
+	<ion-content >
+		<div class="list">
+  			<label class="item item-input">
+    			<span class="input-label">Bookname</span>
+    			<input type="text" ng-model="book.name">
+  			</label>
+  			<label class="item item-input">
+    			<span class="input-label">Total Pages</span>
+    			<input type="tel" ng-model="book.totalPages">
+  			</label>
+
+		</div>
+		<div class="row" >
+  			<div class="col"><img src="{{bookCover}}"  style="width:100%;"  type="file" ngf-select="uploadBookcover($file, $invalidFiles)" accept="image/*"  ngf-max-size="10MB" ngf-no-object-url="true" ></div>
+  		</div>
+		<button class="button button-block button-positive" style="width:90%;margin-left:5%" ng-click="Upload()">Upload</button>
+	
+	</ion-content>
+
+</ion-view>

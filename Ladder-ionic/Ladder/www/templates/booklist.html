@@ -1,0 +1,17 @@
+<ion-view view-title="Ladder & Leslie">
+	<ion-content>
+
+		<div class="card list" ng-repeat="book in booklist">
+			<a class="item item-thumbnail-left" href="">
+      			<img src="{{book.coverImage.url}}">
+				<p>Name: {{book.bookname}}</p>
+				<p>Read Page: {{book.currentPage}}</p>
+				<p>Progress: {{book.progress}}</p>
+				<p>Total Page: {{book.totalPages}}</p>
+    		</a>
+			
+		</div>
+
+	</ion-content>
+
+</ion-view>
