@@ -1,27 +1,37 @@
 angular.module('ladder.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope) {
 })
 
 //图书列表
 .controller('BooklistCtrl',function($scope,HttpFactory){
     $scope.title = "Ladder";
     
+    $scope.load = function(){
+        HttpFactory.send({
+          url:'booklist',
+          method:'get'
+        }).success(function(response){
+          $scope.booklist = response.result;
+          $scope.$broadcast('scroll.refreshComplete');
+          console.log($scope.booklist);
+        });
+    }
 
-    HttpFactory.send({
-      url:'booklist',
-      method:'get'
-    }).success(function(response){
-      $scope.booklist = response.result;
-      console.log($scope.booklist);
-    });
+    $scope.load();
 
+    $scope.doRefresh = function(){
+        $scope.load();
+    }
+    $scope.$on('UploadSuccess',function(){
+        $scope.doRefresh();
+    })
 
 
 })
 
 //添加图书
-.controller('AddBookCtrl',function($scope,$ionicLoading,HttpFactory,$timeout,$state){
+.controller('AddBookCtrl',function($scope,$ionicLoading,HttpFactory,$timeout,$location,$ionicViewService,$rootScope){
     $scope.bookCover = '../img/bookcover.png';
     $scope.book = {};
 
@@ -46,7 +56,9 @@ angular.module('ladder.controllers', [])
             lrz(url).then(function(rst){
                 var avFile = new AV.File('coverImage.png',rst);
                 avFile.save().then(function(fileobj){
-                    $scope.book.coverImage = fileobj.id;
+
+                    $scope.book.coverImage = fileobj._url;
+                    console.log($scope.book.coverImage);
                     $scope.bookCover = url;
                     $ionicLoading.hide();
                     HUD('Upload Success');
@@ -73,7 +85,11 @@ angular.module('ladder.controllers', [])
               method:'post',
               data:$scope.book
             }).success(function(result){
-              console.log(result);
+                $ionicViewService.nextViewOptions({
+                    disableBack: true
+                });
+                $rootScope.$broadcast('UploadSuccess');
+                $location.url('/app',true)
             })
         }
 

@@ -1,9 +1,9 @@
 <ion-view view-title="Ladder & Leslie">
 	<ion-content>
-
+		<ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
 		<div class="card list" ng-repeat="book in booklist">
 			<a class="item item-thumbnail-left" href="">
-      			<img src="{{book.coverImage.url}}">
+      			<img src="{{book.coverImage}}">
 				<p>Name: {{book.bookname}}</p>
 				<p>Read Page: {{book.currentPage}}</p>
 				<p>Progress: {{book.progress}}</p>
